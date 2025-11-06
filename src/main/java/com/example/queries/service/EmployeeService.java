@@ -24,6 +24,23 @@ public class EmployeeService {
 
 
     public Employee saveEmployee(Employee employee) {
+
+
+        if (employee.getName() != null) {
+            employee.setName(employee.getName().trim());
+        }
+        if (employee.getEmail() != null) {
+            employee.setEmail(employee.getEmail().trim().toLowerCase());
+        }
+        if (employee.getDepartment() != null) {
+            employee.setDepartment(employee.getDepartment().trim());
+        }
+
+
+        if (employeeRepository.existsByEmail(employee.getEmail())) {
+            throw new IllegalArgumentException("Email already exists in the system: " + employee.getEmail());
+        }
         return employeeRepository.save(employee);
     }
+
 }
